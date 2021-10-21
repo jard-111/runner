@@ -7,7 +7,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 
-    private Heros hero=new Heros(100,200,"../img/heros.png");
+    Heros hero=new Heros(100,200,"heros.png");
+    Desert desert=new Desert("desert.png");
 
     public void start(Stage primaryStage){
         primaryStage.setTitle("Demo");
@@ -15,6 +16,9 @@ public class Main extends Application{
         Scene scene = new Scene(root, 800, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        root.getChildren().add(desert.getiVDesert());
+        root.getChildren().add(hero.getiVHeros());
     }
     public static void main(String[] args) {
         launch(args);

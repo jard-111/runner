@@ -2,7 +2,7 @@ public class Camera {
     private int x;
     private int y;
 
-    public void Camera(int pX, int pY){
+    public Camera(int pX, int pY){
         this.x=pX;
         this.y=pY;
     }
@@ -13,5 +13,13 @@ public class Camera {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

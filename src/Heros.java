@@ -3,18 +3,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Heros {
-    private double posX;
-    private double posY;
+    private double X;
+    private double Y;
 
-    private  static Image spriteSheet=null;
-    private static ImageView sprite;
+    private ImageView IVHeros;
 
-    public void Heros(double pX,double pY,String filename){
-        this.posX=pX;
-        this.posY=pY;
+    public Heros(double pX,double pY,String filename){
+        this.X=pX;
+        this.Y=pY;
 
-        spriteSheet=new Image(filename);
-        sprite=new ImageView(spriteSheet);
-        sprite.setViewport(new Rectangle2D(20,15,60,80));
+        IVHeros=new ImageView(filename);
+        IVHeros.setViewport(new Rectangle2D(20,15,60,80));
+        IVHeros.setX(X);
+        IVHeros.setY(Y);
+    }
+
+    public ImageView getiVHeros(){return IVHeros;}
+
+    public double getPosX() {
+        return X;
+    }
+
+    public double getPosY() {
+        return Y;
     }
 }
