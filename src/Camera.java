@@ -19,6 +19,11 @@ public class Camera {
         return x;
     }
 
+    public void update(){
+
+
+    }
+
     public int getY() {
         return y;
     }

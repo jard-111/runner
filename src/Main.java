@@ -7,18 +7,22 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 
-    Heros hero=new Heros(100,200,"heros.png");
-    Desert desert=new Desert("desert.png");
+    //Heros hero=new Heros(100,200, "C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\heros.png");
+    //Desert desert=new Desert("C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\desert.png");
+
+
 
     public void start(Stage primaryStage){
         primaryStage.setTitle("Demo");
         Group root = new Group();
-        Scene scene = new Scene(root, 800, 400);
+
+        GameScene scene= new GameScene(root,800,400);
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        root.getChildren().add(desert.getiVDesert());
-        root.getChildren().add(hero.getiVHeros());
+
+
+        //root.getChildren().add(desert.getiVDesert());
     }
     public static void main(String[] args) {
         launch(args);
