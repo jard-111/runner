@@ -7,7 +7,7 @@ public class staticThing {
     private double Y;
     private double height;
     private double width;
-    private ImageView IV;
+    protected ImageView IV;
 
     public staticThing(double x, double y, double height, double width, String filename) {
         this.X = x;

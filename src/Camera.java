@@ -1,6 +1,10 @@
 public class Camera {
-    private int x;
+    private double x;
     private int y;
+    private double ax;
+    private double vx;
+    private float km= (float)3;
+    private float fm= (float) 1.2;
 
     public Camera(int pX, int pY){
         this.x=pX;
@@ -15,16 +19,21 @@ public class Camera {
                 '}';
     }
 
-    public int getX() {
+    public void physique(Heros hero){
+        this.ax=  (km*(hero.getX()-this.x)-fm*vx);
+        this.vx+=  (ax*0.016);
+        this.x+= (vx*0.016);
+    }
+
+    public double getX() {
         return x;
     }
 
     public void update(){
-
-
     }
 
     public int getY() {
+
         return y;
     }
 }
