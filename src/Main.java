@@ -1,5 +1,6 @@
 // add any usefull package line
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,16 +17,15 @@ public class Main extends Application{
         primaryStage.setTitle("Demo");
         Group root = new Group();
 
-        GameScene scene= new GameScene(root,800,400);
-        primaryStage.setScene(scene);
+        GameScene gameScene= new GameScene(root,800,400);
+        primaryStage.setScene(gameScene);
         primaryStage.show();
 
-
-
-        //root.getChildren().add(desert.getiVDesert());
     }
     public static void main(String[] args) {
         launch(args);
         // write your code here
     }
+
+
 }

@@ -22,7 +22,9 @@ public class AnimatedThing {
         this.IVanimated =new ImageView(image);
     }
 
-
+    public void setX(double x) {
+        X = x;
+    }
 
     public double getX() {
         return X;

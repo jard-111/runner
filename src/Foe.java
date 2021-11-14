@@ -27,6 +27,10 @@ public class Foe extends staticThing{
         IV.setX(X- camera.getX());
      }
 
+     public void resetcollision(){
+        collision=false;
+     }
+
     public Rectangle2D getHitBox(){
 
         return (new Rectangle2D(X,Y,60,60));

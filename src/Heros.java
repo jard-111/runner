@@ -8,10 +8,10 @@ public class Heros extends AnimatedThing{
 
     private int pesanteur=20;
     private double vy=0;
-    private double floatY=0;
 
     public Heros(double x, double y, String filename) {
         super(x, y, filename);
+        IVanimated.setViewport(new Rectangle2D(0, 0, 83, 100));
     }
 
     public void update(int vitesse) {
@@ -39,12 +39,11 @@ public class Heros extends AnimatedThing{
             attitude = 2;
             vy += pesanteur;
         }
-        if (floatY + vy * 0.016 >= 250) {
+        if (Y + vy * 0.016 >= 250) {
             Y = 250;
             attitude = 1;
         } else {
-            floatY += vy * 0.016;
-            Y = (int) floatY;
+            Y += vy * 0.016;
         }
         this.IVanimated.setY(Y);
     }

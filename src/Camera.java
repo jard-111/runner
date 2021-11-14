@@ -25,6 +25,10 @@ public class Camera {
         this.x+= (vx*0.016);
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
     public double getX() {
         return x;
     }
