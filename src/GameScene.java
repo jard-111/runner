@@ -3,8 +3,13 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
+import javafx.scene.transform.Translate;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 
 public class GameScene extends Scene{
@@ -16,8 +21,10 @@ public class GameScene extends Scene{
     private final ImageView victoryIV;
     private final int cameraInitialX=0;
     private final int heroInitialX=100;
+    private final int heroInitialY=100;
     private final Button restart;
     private final Button startButton;
+    private String syspath = System.getProperty("user.dir"); // ceci permet de ne pas avoir de bug liés aux paths.
 
     private int vitesse=6;
     private final int vie=3;
@@ -27,43 +34,52 @@ public class GameScene extends Scene{
 
 
 
+
     Camera camera=new Camera(cameraInitialX,0);
     Heros hero;
     ArrayList<Foe> ennemis = new ArrayList<>();
     ArrayList<staticThing> vies=new ArrayList<>();
+
+    Media doomMedia = new Media(new File(syspath+"\\music\\doom.mp3").toURI().toString());
+    MediaPlayer doomPlayer = new MediaPlayer(doomMedia);
+
+    Media rickMedia = new Media(new File(syspath+"\\music\\never-gonna-give-you-up.mp3").toURI().toString());
+    MediaPlayer rickPlayer = new MediaPlayer(rickMedia);
+
 
 
     public GameScene(Group parent, double height, double width) {
 
         super(parent,height,width);
 
-        hero=new Heros(heroInitialX,250,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\heros.png");
+        hero=new Heros(heroInitialX,250,syspath+"\\img\\heros.png");
 
 
-        staticThing victory = new staticThing(0,0,400,800,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\victory.png");
+        staticThing victory = new staticThing(0,0,400,800,syspath+"\\img\\victory.png");
         victoryIV= victory.getIV();
         victoryIV.setX(0);
         victoryIV.setY(0);
         victoryIV.setVisible(false);
 
-        staticThing gameOver = new staticThing(0,0,400,800,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\gameOver.jpg");
+        staticThing gameOver = new staticThing(0,0,400,800,syspath+"\\img\\gameOver.jpg");
         gameOverIV= gameOver.getIV();
         gameOverIV.setX(0);
         gameOverIV.setY(0);
         gameOverIV.setVisible(false);
 
-        staticThing left = new staticThing(0,0,400,800,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\desert.png");
+        staticThing left = new staticThing(0,0,400,800,syspath+"\\img\\desert.png");
         leftIV= left.getIV();
         leftIV.setX(-camera.getX()%800);
         leftIV.setY(0);
 
-        staticThing right = new staticThing(0,0,400,800,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\desert.png");
+        staticThing right = new staticThing(0,0,400,800,syspath+"\\img\\desert.png");
         rightIV= right.getIV();
         rightIV.setX(800-camera.getX()%800);
         rightIV.setY(0);
 
         restart = new Button("restart");
-        restart.setMinSize(800,50);
+        restart.getTransforms().add(new Translate(350,300));
+        restart.setMinSize(100,50);
         restart.setVisible(false);
         restart.setDisable(true);
 
@@ -71,10 +87,12 @@ public class GameScene extends Scene{
         startButton.setMinSize(800,400);
 
         for (int i=0;i<vie;i++){
-            vies.add(new staticThing(0,0,50,50,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\coeur.png"));
+            vies.add(new staticThing(0,0,50,50,syspath+"\\img\\coeur.png"));
             vies.get(i).getIV().setX(i*50);
         }
         createFoes();
+
+        doomPlayer.play();
 
         parent.getChildren().add(leftIV);
         parent.getChildren().add(rightIV);
@@ -100,6 +118,8 @@ public class GameScene extends Scene{
         camera.physique(hero);
 
         if (vieRestante==0){
+            doomPlayer.stop();
+            rickPlayer.play();
             reset(gameOverIV);
         }
 
@@ -110,22 +130,22 @@ public class GameScene extends Scene{
         setOnMouseClicked((e) -> hero.jump());
     }
 
-    public void reset(ImageView debutFin){
+    public void reset(ImageView startRestart){
         jeu=false;
-        debutFin.setVisible(true);
+        startRestart.setVisible(true);
         restart.setVisible(true);
         restart.setDisable(false);
         restart.setOnAction(value ->  {
+            doomPlayer.play();
+            rickPlayer.stop();
             vieRestante=vie;
             for (int i=0;i<vie;i++){
                 vies.get(i).getIV().setVisible(true);
             }
-            hero.setX(heroInitialX);
+            hero.setPositions(heroInitialX,heroInitialY);
             camera.setX(cameraInitialX);
-            for (Foe ennemi : ennemis) {
-                ennemi.resetcollision();
-            }
-            debutFin.setVisible(false);
+            hero.resetInvincibility();
+            startRestart.setVisible(false);
             jeu=true;
             restart.setVisible(false);
             restart.setDisable(true);
@@ -138,7 +158,6 @@ public class GameScene extends Scene{
         @Override
         public void handle(long time) {
                 if (jeu) {
-                    vitesse = 6;
                     hero.update(vitesse);
                     camera.update();
                     for (Foe ennemi : ennemis) {
@@ -161,10 +180,10 @@ public class GameScene extends Scene{
     };
 
     private void createFoes(){
-        ennemis.add(new Foe(0,0,60,60,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\trash.png",1000,290));
-        ennemis.add(new Foe(0,0,60,60,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\trash.png",1450,290));
-        ennemis.add(new Foe(0,0,60,60,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\trash.png",1500,290));
-        ennemis.add(new Foe(0,0,60,60,"C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\trash.png",1800,290));
+        ennemis.add(new Foe(0,0,60,60,syspath+"\\img\\trash.png",1000,290));
+        ennemis.add(new Foe(0,0,60,60,syspath+"\\img\\trash.png",1450,290));
+        ennemis.add(new Foe(0,0,60,60,syspath+"\\img\\trash.png",1500,290));
+        ennemis.add(new Foe(0,0,60,60,syspath+"\\img\\trash.png",1800,290));
 
         for (Foe ennemi : ennemis) {
             ennemi.getIV().setY(290);

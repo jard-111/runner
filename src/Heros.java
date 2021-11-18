@@ -1,23 +1,32 @@
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Heros extends AnimatedThing{
 
     private int pesanteur=20;
     private double vy=0;
+    private int invincibility=0;
 
     public Heros(double x, double y, String filename) {
         super(x, y, filename);
         IVanimated.setViewport(new Rectangle2D(0, 0, 83, 100));
     }
 
+    public void resetInvincibility() {
+        this.invincibility = 0;
+    }
+
     public void update(int vitesse) {
 
         majY();
         viewPort();
+        if(invincibility>0) invincibility-=1;
 
         this.X += vitesse;
 
@@ -25,9 +34,9 @@ public class Heros extends AnimatedThing{
 
     public boolean checkCollision(ArrayList<Foe> ennemis){
         for(Foe ennemi : ennemis) {
-            if (ennemi.getHitBox().intersects(new Rectangle2D(X+30, Y, 20, 85)) & !ennemi.isCollision()) {
+            if (ennemi.getHitBox().intersects(new Rectangle2D(X+30, Y, 20, 85)) & invincibility==0) {
                 System.out.println("collision");
-                ennemi.setCollision(true);
+                invincibility=32;
                 return true;
             }
         }
@@ -49,24 +58,30 @@ public class Heros extends AnimatedThing{
     }
 
     private void viewPort(){
-        switch (attitude) {
-            case 1:
-                if (periode == maxperiode) {
-                    IVanimated.setViewport(new Rectangle2D(84 * index, 0, 83, 100));
-                    if (index == maxindex) {
-                        index = 0;
-                    } else index += 1;
-                    periode = 0;
-                } else periode += 1;
-                break;
-            case 2:
-                if(vy<=0) {
-                    IVanimated.setViewport(new Rectangle2D(0, 162, 83, 100));
-                }
-                if(vy>0) {
-                    IVanimated.setViewport(new Rectangle2D(83, 162, 83, 100));
-                }
+        if (invincibility%8<4) {
+            IVanimated.setVisible(true);
+            switch (attitude) {
+                case 1:
+                    if (periode == maxperiode) {
+                        IVanimated.setViewport(new Rectangle2D(84 * index, 0, 83, 100));
+                        if (index == maxindex) {
+                            index = 0;
+                        } else index += 1;
+                        periode = 0;
+                    } else periode += 1;
+                    break;
+                case 2:
+                    if (vy <= 0) {
+                        IVanimated.setViewport(new Rectangle2D(0, 162, 83, 100));
+                    }
+                    if (vy > 0) {
+                        IVanimated.setViewport(new Rectangle2D(83, 162, 83, 100));
+                    }
 
+            }
+        }
+        else{
+            IVanimated.setVisible(false);
         }
     }
 

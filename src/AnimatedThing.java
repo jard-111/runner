@@ -22,8 +22,9 @@ public class AnimatedThing {
         this.IVanimated =new ImageView(image);
     }
 
-    public void setX(double x) {
+    public void setPositions(double x,double y) {
         X = x;
+        Y = y;
     }
 
     public double getX() {
