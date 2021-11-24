@@ -8,11 +8,6 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 
-    //Heros hero=new Heros(100,200, "C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\heros.png");
-    //Desert desert=new Desert("C:\\Users\\caincain\\Desktop\\ENSEA\\2A\\java\\runner\\img\\desert.png");
-
-
-
     public void start(Stage primaryStage){
         primaryStage.setTitle("Demo");
         Group root = new Group();

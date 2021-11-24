@@ -22,6 +22,8 @@ public class AnimatedThing {
         this.IVanimated =new ImageView(image);
     }
 
+    //on peut donner les positions d'une animatedThing pour relancer le jeu une fois gagne/perdu.
+    //On aurait pu creer une fonction avec des positions predefinies mais un setter permet de faire des essais
     public void setPositions(double x,double y) {
         X = x;
         Y = y;
@@ -34,6 +36,5 @@ public class AnimatedThing {
     public ImageView getIVanimated() {
         return IVanimated;
     }
-
 
 }

@@ -3,8 +3,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class staticThing {
-    private double X;
-    private double Y;
+    private double X;//position en X sur le spreadsheet
+    private double Y;//position en Y sur le spreadsheet
     private double height;
     private double width;
     protected ImageView IV;
